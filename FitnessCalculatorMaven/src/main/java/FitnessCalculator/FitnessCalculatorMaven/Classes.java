@@ -3,6 +3,7 @@ package FitnessCalculator.FitnessCalculatorMaven;
 import java.util.ArrayList;
 
 import FitnessCalculator.FitnessCalculatorMaven.AbstractClasses.abstractBodyMassIndex;
+import FitnessCalculator.FitnessCalculatorMaven.AbstractClasses.abstractPulseZone;
 
 
 
@@ -91,6 +92,63 @@ public class Classes {
 			} else if (index >= 40) {
 				DataList.add(1, "Ожирение третьей степени (морбидное)");
 			}
+			return DataList;
+		}
+	}
+	
+	/**
+	 * <b>Класс реализующий взмодействие с одной переменными на чтение и запись с помощью соответствующих методов и один метод для вычисления шести пульсовых зон .</b>
+	 * @author Мовсесян Армен Саргисович
+	 * @version 1.0
+	 * В классе 1 переменная age типа int, два метода для взамидействие с переменной (get,set), один конструктор инициализаци класса, один метод для вычисления шести пульсовых зон.
+	 * Классы используют библиотеку java.util.ArrayList.
+	 * 
+	 * Для использования класса необходимо создать объект этого класса.
+	 */
+	public static class PulseZone extends abstractPulseZone{
+		/** Поле хранящий возраст человека */
+		private int age = 0; // возраст человека
+
+		/**
+		 * Конструктор - создание обекта с дольнейшим присваеванием одного значения одной переменной. 
+		 * @param age - возраст человека
+		 */
+		public PulseZone(int age) {
+			this.age = age;
+		}
+		/**
+		 * Метод получения значения обозначающий возраст человека
+		 * @return значение типа int обозначающий возраст человека
+		 */
+		public int getAge() {
+			return age;
+		}
+		/**
+		 * Метод задания значения обозначающий возраст человека
+		 * @param variable - значение указывающий возрас человека
+		 */
+		public void setAge(int variable) {
+			age = variable;
+		}
+		/**
+		 * Метод вычисляющий шесть пульсовых зон человека 
+		 * @return массив из 6 элементов,каждый обозначающий свой диапазон частоты сердечных сокращений человека. 
+		 */
+		public ArrayList<String> PulseZoneResult() {
+			ArrayList<String> DataList = new ArrayList<String>();
+			int [] pulseZone = {50,60,70,80,90};
+			int pulseMax = 220 - age;
+			for (int i1 = 0; i1 < pulseZone.length; i1++) {
+				if (i1 != pulseZone.length - 1) {
+//					System.out.println((int) Math.ceil(pulseMax / 100.0 * pulseZone[i1])  + " - " + (int) Math.ceil(pulseMax / 100.0 * pulseZone[i1 + 1]) );
+					DataList.add(i1, (int) Math.ceil(pulseMax / 100.0 * pulseZone[i1])  + " - " + (int) Math.ceil(pulseMax / 100.0 * pulseZone[i1 + 1]) );
+				} else {
+//					System.out.println((int) Math.ceil(pulseMax / 100.0 * pulseZone[i1])  + " - " + (int) Math.ceil(pulseMax / 100.0 * 100));
+					DataList.add(i1, (int) Math.ceil(pulseMax / 100.0 * pulseZone[i1])  + " - " + (int) Math.ceil(pulseMax / 100.0 * 100));
+				}
+			}
+			DataList.add(String.valueOf(pulseMax));
+			
 			return DataList;
 		}
 	}
