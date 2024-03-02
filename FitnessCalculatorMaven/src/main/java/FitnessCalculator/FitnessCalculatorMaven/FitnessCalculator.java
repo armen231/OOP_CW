@@ -13,6 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import FitnessCalculator.FitnessCalculatorMaven.Classes.BodyMassIndex;
+import FitnessCalculator.FitnessCalculatorMaven.Classes.PulseZone;
+
 /**
  * <b>Класс реализующий иницализацию интерфейса, взимодействие с интерфейсом, выполение всех необходимых функций из класса classes</b>
  * @author Мовсесян Армен Саргисович
@@ -399,6 +402,117 @@ public class FitnessCalculator {
 		public static class Result implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				ArrayList<String> letter = new ArrayList<String>();
+				letter.add("0");
+				letter.add("1");
+				letter.add("2");
+				letter.add("3");
+				letter.add("4");
+				letter.add("5");
+				letter.add("6");
+				letter.add("7");
+				letter.add("8");
+				letter.add("9");
+				letter.add(".");
+				
+				int [] count= {0,0};
+				String message = "Описание ошибки: -";
+				
+				for (int i1 = 0; i1 < input1.getText().length(); i1++) {
+					for (int i2 = 0; i2 < letter.size(); i2++) {
+						if (String.valueOf(input1.getText().charAt(i1)).indexOf(letter.get(i2)) != -1 & message == "Описание ошибки: -") {
+							if(String.valueOf(input1.getText().charAt(i1)).indexOf(".") != -1 & message == "Описание ошибки: -") {
+								if (i1 != input1.getText().length() - 1  & message == "Описание ошибки: -") {
+									if (i1 == 1 & message == "Описание ошибки: -") {
+										count[1]++;
+									} else {
+										message = "Описание ошибки: Перед разделительной точкой разрешено использование только одну цифру в первом поле ввода";
+									}
+								} else {
+									message = "Описание ошибки: Разделительная точка не должна находится в конце значения в первом поле ввода.";
+								}
+							}
+							if (String.valueOf(input1.getText().charAt(i1)).indexOf(".") == -1 & message == "Описание ошибки: -") {
+								count[0]++;
+							}
+						}
+					}
+				}
+				
+				if (count[0] + count[1] == input1.getText().length() & count[0] != 0 & message == "Описание ошибки: -") {
+					message = "Описание ошибки: -";
+					count[0] = 0;
+					count[1] = 0;
+					
+					for (int i1 = 0; i1 < input2.getText().length(); i1++) {
+						for (int i2 = 0; i2 < letter.size(); i2++) {
+							if (String.valueOf(input2.getText().charAt(i1)).indexOf(letter.get(i2)) != -1 & message == "Описание ошибки: -") {
+								if(String.valueOf(input2.getText().charAt(i1)).indexOf(".") != -1 & message == "Описание ошибки: -") {
+									if (i1 != input2.getText().length() - 1  & message == "Описание ошибки: -") {
+										if (i1 != 0 & message == "Описание ошибки: -") {
+											count[1]++;
+										} else {
+											message = "Описание ошибки: Разделительная точка не должна находится первым символом в значении в втором поле ввода.";
+										}
+									} else {
+										message = "Описание ошибки: Разделительная точка не должна находится в конце значения в втором поле ввода.";
+									}
+								}
+								if (String.valueOf(input2.getText().charAt(i1)).indexOf(".") == -1 & message == "Описание ошибки: -") {
+									count[0]++;
+								}
+							}
+						}
+					}
+					
+					if (count[0] + count[1] == input2.getText().length() & count[0] != 0 & message == "Описание ошибки: -") {
+//						System.out.println("1 - "+count[0]+" "+count[1]+" "+input2.getText().length());
+						message = "Описание ошибки: -";
+						count[0] = 0;
+						count[1] = 0;
+						
+						for (int i1 = 0; i1 < input3.getText().length(); i1++) {
+							for (int i2 = 0; i2 < letter.size(); i2++) {
+								if (String.valueOf(input3.getText().charAt(i1)).indexOf(letter.get(i2)) != -1 & message == "Описание ошибки: -") {
+									if (String.valueOf(input3.getText().charAt(i1)).indexOf(".") == -1 & message == "Описание ошибки: -") {
+										count[0]++;
+									}
+								}
+							}
+						}
+						
+						if (count[0] == input3.getText().length() & count[0] != 0 & message == "Описание ошибки: -") {
+							ArrayList<String> array = new ArrayList<String>();
+							BodyMassIndex BodyMassIndex = new BodyMassIndex(Double.valueOf(input1.getText()) ,Double.valueOf(input2.getText()));
+							array = BodyMassIndex.BodyMassIndexResult();
+							input4.setText(array.get(0)+" "+array.get(1));
+							
+							array.clear();
+							
+							PulseZone PulseZone = new PulseZone(Integer.valueOf(input3.getText()));
+							array = PulseZone.PulseZoneResult();
+							PulseZoneTableLabel5.setText(array.get(0));
+							PulseZoneTableLabel9.setText(array.get(1));
+							PulseZoneTableLabel13.setText(array.get(2));
+							PulseZoneTableLabel17.setText(array.get(3));
+							PulseZoneTableLabel21.setText(array.get(4));
+							PulseZoneTableLabel25.setText(array.get(5));
+							
+							array.clear();
+						} else if (message == "Описание ошибки: -") {
+							message = "Описание ошибки: В значении должны быть  только цифры в третьем поле ввода.";
+						}
+					} else if (message == "Описание ошибки: -") {
+						message = "Описание ошибки: В значении должны быть либо цифры и 1 разделительная точка или только цифры в втором поле ввода.";
+					}
+				} else if (message == "Описание ошибки: -") {
+					message = "Описание ошибки: В значении должны быть либо цифры и 1 разделительная точка или только цифры в первом поле ввода.";
+				}
+				
+				Label7.setText(message);
+				
+//				System.out.println(count[0]+" "+count[1]);
+				
 				
 			}
 		}
